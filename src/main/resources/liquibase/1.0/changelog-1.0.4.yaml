@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create categories table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: is_show_header
+                  type: boolean
+              - column:
+                  name: parent_id
+                  type: bigint
+                  constraints:
+                    references: categories(id)
+                    foreignKeyName: fk_categories_categories
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

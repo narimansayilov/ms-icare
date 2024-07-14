@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: create users table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: pin
+                  type: varchar(7)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: surname
+                  type: varchar(255)
+              - column:
+                  name: birth_day
+                  type: date
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: password
+                  type: varchar(255)
+              - column:
+                  name: phone_number
+                  type: varchar(255)
+              - column:
+                  name: photo_url
+                  type: varchar(1023)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create offices table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: offices
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: city
+                  type: varchar(255)
+              - column:
+                  name: region
+                  type: varchar(255)
+              - column:
+                  name: address_detail
+                  type: varchar(1023)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

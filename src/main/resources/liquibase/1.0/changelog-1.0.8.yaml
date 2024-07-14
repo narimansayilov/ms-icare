@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: create rentals table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: rentals
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    references: products(id)
+                    foreignKeyName: fk_rentals_products
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    references: users(id)
+                    foreignKeyName: fk_rentals_users
+              - column:
+                  name: office_id
+                  type: bigint
+                  constraints:
+                    references: offices(id)
+                    foreignKeyName: fk_stocks_offices
+              - column:
+                  name: total_price
+                  type: double
+              - column:
+                  name: rental_start_date
+                  type: timestamp
+              - column:
+                  name: rental_end_date
+                  type: timestamp
+              - column:
+                  name: address
+                  type: varchar(1023)
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

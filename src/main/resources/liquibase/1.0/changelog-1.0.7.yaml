@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: create stocks table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: stocks
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: quantity
+                  type: bigint
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    references: products(id)
+                    foreignKeyName: fk_stocks_products
+              - column:
+                  name: office_id
+                  type: bigint
+                  constraints:
+                    references: offices(id)
+                    foreignKeyName: fk_stocks_offices
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()
