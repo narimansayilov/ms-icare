@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "offices")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "offices", schema = "rental")
 public class OfficeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

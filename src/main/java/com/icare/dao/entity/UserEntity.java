@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users", schema = "rental")
+@Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity {
     @Id
@@ -34,8 +34,7 @@ public class UserEntity {
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "User_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            schema = "rental"
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     List<RoleEntity> roles;
 
@@ -44,4 +43,5 @@ public class UserEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
 }

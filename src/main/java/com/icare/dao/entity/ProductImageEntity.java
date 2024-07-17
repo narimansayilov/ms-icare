@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "product_images")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "product_images", schema = "rental")
 public class ProductImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

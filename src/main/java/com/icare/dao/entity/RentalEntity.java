@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "rentals")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "rentals", schema = "rental")
 public class RentalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "favorites")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "favorites", schema = "rental")
 public class FavoriteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
