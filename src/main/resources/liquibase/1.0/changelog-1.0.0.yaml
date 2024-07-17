@@ -34,7 +34,7 @@ databaseChangeLog:
                   type: varchar(255)
               - column:
                   name: phone_number
-                  type: varchar(255)
+                  type: varchar(13)
               - column:
                   name: photo_url
                   type: varchar(1023)
