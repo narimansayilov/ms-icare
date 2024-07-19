@@ -20,9 +20,11 @@ public class OfficeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    String city;
-    String region;
     String addressDetail;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    CityEntity city;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
