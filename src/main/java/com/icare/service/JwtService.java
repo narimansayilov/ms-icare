@@ -1,4 +1,4 @@
-package com.icare.config;
+package com.icare.service;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Component
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class JwtService {
     @Value("${jwt.secret-key}")
@@ -32,7 +32,7 @@ public class JwtService {
 
     public String generateAccessToken(UserDetails user) {
         return Jwts.builder()
-                .issuer("Nariman Sayilov")
+                .issuer("FunRental")
                 .subject(user.getUsername())
                 .issuedAt(new Date())
                 .expiration(Date.from(Instant.now().plus(Duration.ofMinutes(5))))
