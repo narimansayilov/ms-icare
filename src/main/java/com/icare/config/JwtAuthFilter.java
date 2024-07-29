@@ -1,5 +1,6 @@
 package com.icare.config;
 
+import com.icare.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
