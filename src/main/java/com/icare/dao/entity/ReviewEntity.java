@@ -13,25 +13,27 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "stocks")
+@Table(name = "comments")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class StockEntity {
+public class ReviewEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    Integer quantity;
+    String comment;
+    Integer rating;
+    boolean status;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
     ProductEntity product;
 
-    @ManyToOne
-    @JoinColumn(name = "office_id")
-    OfficeEntity office;
-
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    LocalDateTime updatedAt;
 }

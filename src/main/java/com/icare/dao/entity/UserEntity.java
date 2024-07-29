@@ -29,6 +29,11 @@ public class UserEntity {
     String password;
     String phoneNumber;
     String photoUrl;
+    Integer productCount;
+
+    @ManyToOne
+    @JoinColumn(name = "level_id")
+    LevelEntity level;
 
     @ManyToMany
     @JoinTable(

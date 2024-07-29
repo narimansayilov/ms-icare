@@ -1,5 +1,6 @@
 package com.icare.dao.entity;
 
+import com.icare.model.enums.DeliveryMethod;
 import com.icare.model.enums.RentalStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +24,15 @@ public class RentalEntity {
     Double totalPrice;
     LocalDateTime rentalStartDate;
     LocalDateTime rentalEndDate;
-    String address;
+    String deliveryAddress;
+
+    @Enumerated(EnumType.STRING)
+    DeliveryMethod deliveryMethod;
+    Double deliveryCost;
+
+    @Enumerated(EnumType.STRING)
+    DeliveryMethod returnedDeliveryMethod;
+    Double returnedDeliveryCost;
 
     @Enumerated(EnumType.STRING)
     RentalStatus status;
@@ -35,10 +44,6 @@ public class RentalEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "office_id")
-    OfficeEntity office;
 
     @CreationTimestamp
     LocalDateTime createdAt;

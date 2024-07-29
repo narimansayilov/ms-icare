@@ -20,10 +20,23 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String title;
-    Double pricePerDay;
-
-    @Column(columnDefinition = "TEXT")
     String description;
+    Double pricePerDay;
+    String address;
+    Double totalRating;
+    Integer viewCount;
+    Integer rentalCount;
+    Boolean deliveryAvailable;
+    Double deliveryPricePerKm;
+    boolean status;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    UserEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    CityEntity city;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
