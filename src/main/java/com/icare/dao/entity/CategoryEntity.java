@@ -23,9 +23,8 @@ public class CategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    Boolean parentCategory;
+    boolean parentCategory;
     Integer productCount;
-    boolean status;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")

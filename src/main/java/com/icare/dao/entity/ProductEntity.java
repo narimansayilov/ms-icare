@@ -26,7 +26,7 @@ public class ProductEntity {
     Double totalRating;
     Integer viewCount;
     Integer rentalCount;
-    Boolean deliveryAvailable;
+    boolean deliveryAvailable;
     Double deliveryPricePerKm;
     boolean status;
 

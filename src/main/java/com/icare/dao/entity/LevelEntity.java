@@ -22,7 +22,6 @@ public class LevelEntity {
     String name;
     Integer adLimit;
     Double price;
-    boolean status;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
