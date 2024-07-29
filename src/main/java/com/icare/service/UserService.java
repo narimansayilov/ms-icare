@@ -2,7 +2,6 @@ package com.icare.service;
 
 import lombok.extern.slf4j.Slf4j;
 import com.icare.mapper.UserMapper;
-import com.icare.config.JwtService;
 import lombok.RequiredArgsConstructor;
 import com.icare.dao.entity.RoleEntity;
 import com.icare.dao.entity.UserEntity;
