@@ -17,7 +17,5 @@ public interface UserMapper {
 
     UserResponse entityToResponse(UserEntity entity);
 
-    // List<UserResponse> entitiesToResponses(List<UserEntity> entities);
-
     void mapRequestToEntity(@MappingTarget UserEntity entity, UserUpdateRequest request);
 }
