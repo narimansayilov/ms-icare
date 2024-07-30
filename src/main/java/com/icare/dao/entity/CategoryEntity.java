@@ -39,4 +39,10 @@ public class CategoryEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void autoFill(){
+        this.productCount = 0;
+        this.parent = this.parent.getId() == null ? null : this.parent;
+    }
 }
