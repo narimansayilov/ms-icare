@@ -22,6 +22,7 @@ public class SecurityConfig {
     private static final String[] AUTH_WHITELIST = {
             "/users/login",
             "/users/register",
+            "categories/**",
             "/webjars/**",
             "/v2/api3-docs",
             "/v3/api-docs/**",
