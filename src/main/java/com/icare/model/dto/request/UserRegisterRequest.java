@@ -25,7 +25,7 @@ public class UserRegisterRequest {
     private String surname;
 
     @Past(message = "Birth day must be a past date")
-    @NotBlank(message = "Birth day cannot be blank")
+    @NotNull(message = "Birth day cannot be blank")
     private LocalDate birthDay;
 
     @Email(message = "Email should be valid")
@@ -34,7 +34,7 @@ public class UserRegisterRequest {
 
     @Size(min = 8, max = 64, message = "Password must be at least 8 characters long")
     @Pattern(
-            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$",
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=?!.,]).{8,}$",
             message = "Password must contain at least one digit, one lowercase letter, one uppercase letter, and one special character"
     )
     @NotBlank(message = "Password cannot be blank")
