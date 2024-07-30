@@ -13,5 +13,6 @@ public class CategoryResponse {
     private String name;
     private boolean parentCategory;
     private Integer parentId;
+    private Integer productCount;
     private List<Translation> translations;
 }
