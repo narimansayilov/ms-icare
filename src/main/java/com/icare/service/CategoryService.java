@@ -29,12 +29,10 @@ public class CategoryService {
     }
 
     public CategoryResponse getById(Long id) {
-        log.info("ActionLog.getById.start for category id = {}", id);
         CategoryEntity entity = categoryRepository.findById(id).orElseThrow(() -> {
                 log.error("ActionLog.getById.NotFoundException for category id = {}", id);
                 return new NotFoundException("CATEGORY_NOT_FOUND");
         });
-        log.info("ActionLog.getById.end for category id = {}", id);
         return CategoryMapper.INSTANCE.entityToResponse(entity);
     }
 
@@ -52,6 +50,7 @@ public class CategoryService {
 
     public void deleteById(Long id) {
         log.info("ActionLog.deleteById.start for category id = {}", id);
+        // check product count
         categoryRepository.deleteById(id);
         log.info("ActionLog.deleteById.end for category id = {}", id);
     }
