@@ -24,6 +24,7 @@ public class CityEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
+    Integer productCount;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
@@ -34,4 +35,9 @@ public class CityEntity {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void autoFill(){
+        this.productCount = 0;
+    }
 }
