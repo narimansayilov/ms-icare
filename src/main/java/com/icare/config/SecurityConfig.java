@@ -23,6 +23,8 @@ public class SecurityConfig {
             "/users/register",
             "/categories/**",
             "/cities/**",
+            "/files/**",
+            "/products/**",
             "/webjars/**",
             "/v2/api3-docs",
             "/v3/api-docs/**",
