@@ -3,3 +3,5 @@ spring:
     include:
       - db
       - security
+      - s3
+      - file-upload
