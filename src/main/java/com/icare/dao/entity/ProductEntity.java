@@ -23,12 +23,12 @@ public class ProductEntity {
     String description;
     Double pricePerDay;
     String address;
+    boolean deliveryAvailable;
+    Double deliveryPricePerKm;
     Double totalRating;
     Integer viewCount;
     Integer rentalCount;
-    boolean deliveryAvailable;
-    Double deliveryPricePerKm;
-    boolean status;
+    Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -47,4 +47,12 @@ public class ProductEntity {
 
     @UpdateTimestamp
     LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void autoFill() {
+        this.status = true;
+        this.totalRating = 0.0;
+        this.viewCount = 0;
+        this.rentalCount = 0;
+    }
 }
