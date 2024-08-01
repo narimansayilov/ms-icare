@@ -1,5 +1,7 @@
 package com.icare.service;
 
+import com.icare.dao.entity.LevelEntity;
+import com.icare.dao.repository.LevelRepository;
 import lombok.extern.slf4j.Slf4j;
 import com.icare.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +29,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
-    private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final LevelRepository levelRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+
 
     public void register(UserRegisterRequest request) {
         log.info("ActionLog.register.start for email is {}", request.getEmail());
@@ -42,6 +46,7 @@ public class UserService {
         UserEntity userEntity = UserMapper.INSTANCE.registerRequestToEntity(request);
         userEntity.setPassword(passwordEncoder.encode(request.getPassword()));
         userEntity.setRoles(List.of(getRole()));
+        userEntity.setLevel(getLevel());
         userRepository.save(userEntity);
         log.info("ActionLog.register.end for email is {}", request.getEmail());
     }
@@ -75,5 +80,10 @@ public class UserService {
     private RoleEntity getRole() {
         return roleRepository.findByName("USER")
                 .orElseGet(() -> roleRepository.save(RoleEntity.builder().name("USER").build()));
+    }
+
+    private LevelEntity getLevel() {
+        return levelRepository.findByName("Bronze")
+                .orElseGet(() -> levelRepository.save(LevelEntity.builder().name("Bronze").adLimit(10).price(0.0).build()));
     }
 }
