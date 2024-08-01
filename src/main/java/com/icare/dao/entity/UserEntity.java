@@ -30,6 +30,7 @@ public class UserEntity {
     String phoneNumber;
     String photoUrl;
     Integer productCount;
+    Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "level_id")
@@ -49,4 +50,9 @@ public class UserEntity {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @PrePersist
+    protected void autoFill() {
+        this.status = true;
+        this.productCount = 0;
+    }
 }
