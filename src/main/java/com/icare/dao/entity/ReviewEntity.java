@@ -21,7 +21,7 @@ public class ReviewEntity {
     Long id;
     String comment;
     Integer rating;
-    boolean status;
+    Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,4 +36,9 @@ public class ReviewEntity {
 
     @UpdateTimestamp
     LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void autoFill() {
+        this.status = true;
+    }
 }
