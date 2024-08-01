@@ -20,6 +20,7 @@ public class ProductImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String imageUrl;
+    boolean main;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
