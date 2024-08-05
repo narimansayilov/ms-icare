@@ -1,9 +1,9 @@
 package com.icare.controller;
 
+import com.icare.model.dto.response.ValidationExceptionResponse;
 import com.icare.model.dto.response.ExceptionResponse;
 import com.icare.model.dto.response.FieldErrorResponse;
-import com.icare.model.exception.AlreadyExistsException;
-import com.icare.model.exception.NotFoundException;
+import com.icare.model.exception.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,28 +23,54 @@ public class ErrorHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     public ExceptionResponse handleNotFoundException(NotFoundException exception) {
-        return ExceptionResponse.builder()
-                .timestamp(LocalDateTime.now().format(DATE_FORMATTER))
-                .message(exception.getMessage())
-                .code("NOT_FOUND")
-                .status(NOT_FOUND.value())
-                .build();
+        return buildExceptionResponse(exception.getMessage(), NOT_FOUND.value(), "NOT_FOUND");
+    }
+
+    @ExceptionHandler(ActiveException.class)
+    @ResponseStatus(CONFLICT)
+    public ExceptionResponse handleActiveException(ActiveException exception) {
+        return buildExceptionResponse(exception.getMessage(), CONFLICT.value(), "ACTIVE_CONFLICT");
+    }
+
+    @ExceptionHandler(NotActiveException.class)
+    @ResponseStatus(CONFLICT)
+    public ExceptionResponse handleNotActiveException(NotActiveException exception) {
+        return buildExceptionResponse(exception.getMessage(), CONFLICT.value(), "NOT_ACTIVE_CONFLICT");
+    }
+
+    @ExceptionHandler(FileUploadException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionResponse handleFileUploadException(FileUploadException exception){
+        return buildExceptionResponse(exception.getMessage(), BAD_REQUEST.value(), "FILE_UPLOAD_ERROR");
+    }
+
+    @ExceptionHandler(LimitExceededException.class)
+    @ResponseStatus(FORBIDDEN)
+    public ExceptionResponse handleLimitExceededException(LimitExceededException exception){
+        return buildExceptionResponse(exception.getMessage(), FORBIDDEN.value(), "LIMIT_EXCEEDED");
     }
 
     @ExceptionHandler(AlreadyExistsException.class)
     @ResponseStatus(CONFLICT)
     public ExceptionResponse handleAlreadyExistsException(AlreadyExistsException exception) {
-        return ExceptionResponse.builder()
-                .timestamp(LocalDateTime.now().format(DATE_FORMATTER))
-                .message(exception.getMessage())
-                .code("ALREADY_EXISTS")
-                .status(CONFLICT.value())
-                .build();
+        return buildExceptionResponse(exception.getMessage(), CONFLICT.value(), "ALREADY_EXISTS");
+    }
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    @ResponseStatus(UNAUTHORIZED)
+    public ExceptionResponse handleUnauthorizedAccessException(UnauthorizedAccessException exception) {
+        return buildExceptionResponse(exception.getMessage(), UNAUTHORIZED.value(), "UNAUTHORIZED_ACCESS");
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(INTERNAL_SERVER_ERROR)
+    public ExceptionResponse handleException(Exception exception) {
+        return buildExceptionResponse(exception.getMessage(), INTERNAL_SERVER_ERROR.value(), "UNEXPECTED_EXCEPTION");
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
-    public ExceptionResponse handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
+    public ValidationExceptionResponse handleMethodArgumentNotValid(MethodArgumentNotValidException exception) {
         List<FieldErrorResponse> fieldErrors = new ArrayList<>();
         exception.getBindingResult().getFieldErrors().forEach(fieldError -> {
             FieldErrorResponse error = FieldErrorResponse.builder()
@@ -53,25 +79,20 @@ public class ErrorHandler {
                     .build();
             fieldErrors.add(error);
         });
-
-        return ExceptionResponse.builder()
+        return ValidationExceptionResponse.builder()
                 .timestamp(LocalDateTime.now().format(DATE_FORMATTER))
-                .message("VALIDATION_FAILED")
-                .code("INVALID_ARGUMENT")
+                .code("VALIDATION_FAILED")
                 .status(BAD_REQUEST.value())
                 .fieldErrors(fieldErrors)
                 .build();
-
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ExceptionResponse handleException(Exception exception) {
+    private ExceptionResponse buildExceptionResponse(String message, Integer status, String code) {
         return ExceptionResponse.builder()
                 .timestamp(LocalDateTime.now().format(DATE_FORMATTER))
-                .message(exception.getMessage())
-                .code("UNEXPECTED_EXCEPTION")
-                .status(INTERNAL_SERVER_ERROR.value())
+                .message(message)
+                .code(code)
+                .status(status)
                 .build();
     }
 }
