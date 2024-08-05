@@ -14,7 +14,6 @@ public class ProductRequest {
     private String address;
     private boolean deliveryAvailable;
     private Double deliveryPricePerKm;
-    private Long userId;
     private Long categoryId;
     private Long cityId;
 }
