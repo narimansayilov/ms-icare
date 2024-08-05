@@ -20,7 +20,8 @@ public class ProductImageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String imageUrl;
-    boolean main;
+    Boolean main;
+    Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "product_id")
@@ -31,4 +32,9 @@ public class ProductImageEntity {
 
     @UpdateTimestamp
     LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void autoFill() {
+        this.status = true;
+    }
 }
