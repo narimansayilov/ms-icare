@@ -1,27 +1,29 @@
 package com.icare.service;
 
 import com.icare.dao.entity.LevelEntity;
-import com.icare.dao.repository.LevelRepository;
-import lombok.extern.slf4j.Slf4j;
-import com.icare.mapper.UserMapper;
-import lombok.RequiredArgsConstructor;
 import com.icare.dao.entity.RoleEntity;
 import com.icare.dao.entity.UserEntity;
-import org.springframework.stereotype.Service;
+import com.icare.dao.repository.LevelRepository;
 import com.icare.dao.repository.RoleRepository;
 import com.icare.dao.repository.UserRepository;
+import com.icare.mapper.UserMapper;
+import com.icare.model.dto.request.UserLoginRequest;
+import com.icare.model.dto.request.UserRegisterRequest;
+import com.icare.model.dto.request.UserUpdateRequest;
 import com.icare.model.dto.response.JwtResponse;
 import com.icare.model.dto.response.UserResponse;
-import com.icare.model.exception.NotFoundException;
-import com.icare.model.dto.request.UserLoginRequest;
-import com.icare.model.dto.request.UserUpdateRequest;
-import com.icare.model.dto.request.UserRegisterRequest;
-import org.springframework.security.core.Authentication;
 import com.icare.model.exception.AlreadyExistsException;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import com.icare.model.exception.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
     private final JwtService jwtService;
+    private final AmazonS3Service amazonS3Service;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final LevelRepository levelRepository;
@@ -65,16 +68,32 @@ public class UserService {
         return new JwtResponse(principal.getUsername(), accessToken);
     }
 
-    public UserResponse update(Long id, UserUpdateRequest request) {
-        log.info("ActionLog.update.start for id is {}", id);
-        UserEntity entity = userRepository.findById(id).orElseThrow(() -> {
-            log.error("ActionLog.login.NotFoundException id = {}", id);
+    public UserResponse getUser(String email) {
+        UserEntity entity = userRepository.findByEmail(email).orElseThrow(() -> {
+            log.error("ActionLog.getUser.NotFoundException for email is {}", email);
             return new NotFoundException("USER_NOT_FOUND");
         });
+        return UserMapper.INSTANCE.entityToResponse(entity);
+    }
+
+    @Transactional
+    public UserResponse update(UserUpdateRequest request, MultipartFile image, String email) {
+        log.info("ActionLog.update.start for email is {}", email);
+        UserEntity entity = userRepository.findByEmail(email).orElseThrow(() -> {
+            log.error("ActionLog.login.NotFoundException for email is {}", email);
+            return new NotFoundException("USER_NOT_FOUND");
+        });
+        if(!request.getEmail().equals(entity.getEmail())) {
+            if(userRepository.existsByEmail(request.getEmail())) {
+                log.error("ActionLog.update.EmailAlreadyExistsException email is {}", email);
+                throw new AlreadyExistsException("EMAIL_ALREADY_EXISTS");
+            }
+        }
+        entity.setPhotoUrl(amazonS3Service.uploadFile(image));
         UserMapper.INSTANCE.mapRequestToEntity(entity,request);
         userRepository.save(entity);
-        log.info("ActionLog.update.end for id is {}", id);
-            return UserMapper.INSTANCE.entityToResponse(entity);
+        log.info("ActionLog.update.end for email is {}", email);
+        return UserMapper.INSTANCE.entityToResponse(entity);
     }
 
     private RoleEntity getRole() {
