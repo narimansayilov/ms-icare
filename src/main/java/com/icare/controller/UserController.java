@@ -8,7 +8,10 @@ import com.icare.model.dto.response.UserResponse;
 import com.icare.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,13 +24,30 @@ public class UserController {
         userService.register(request);
     }
 
+    @GetMapping("/details")
+    public UserResponse getUserDetails() {
+        String email = getCurrentUsername();
+        return userService.getUser(email);
+    }
+
     @PostMapping("/login")
     public JwtResponse login(@RequestBody @Valid UserLoginRequest request) {
         return userService.login(request);
     }
 
-    @PutMapping("/update/{id}")
-    public UserResponse update(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request) {
-        return userService.update(id, request);
+    @PutMapping("/update")
+    public UserResponse update(@RequestPart("request") @Valid UserUpdateRequest request,
+                               @RequestPart("image") MultipartFile image) {
+        String email = getCurrentUsername();
+        return userService.update(request, image, email);
+    }
+
+    private String getCurrentUsername() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 }
