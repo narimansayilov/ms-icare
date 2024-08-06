@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -111,6 +112,19 @@ public class ProductService {
         }
         entity.setStatus(false);
         productRepository.save(entity);
+    }
+
+    public List<ProductResponse> getMyProducts(String email){
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> {
+            log.error("ActionLog.getMyProducts.NotFoundException for user email = {}", email);
+            return new NotFoundException("USER_NOT_FOUND");
+        });
+        List<ProductEntity> entities = productRepository.findByUserId(user.getId());
+        List<ProductResponse> responses = new ArrayList<>();
+        for(ProductEntity entity : entities){
+            responses.add(getProduct(entity.getId()));
+        }
+        return responses;
     }
 
     private void setCount(Long userId, Long categoryId, Long cityId){
