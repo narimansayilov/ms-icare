@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/products")
@@ -24,9 +26,15 @@ public class ProductController {
         productService.addProduct(request, images, email);
     }
 
-    @GetMapping("/{id}/details")
+    @GetMapping("/{id}")
     public ProductResponse getProduct(@PathVariable Long id){
         return productService.getProduct(id);
+    }
+
+    @GetMapping("/my")
+    public List<ProductResponse> getMyProducts(){
+        String email = getCurrentUsername();
+        return productService.getMyProducts(email);
     }
 
     @PutMapping("/{id}/update")
