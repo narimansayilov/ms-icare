@@ -8,8 +8,7 @@ import com.icare.model.dto.response.UserResponse;
 import com.icare.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,9 +24,8 @@ public class UserController {
     }
 
     @GetMapping("/details")
-    public UserResponse getUserDetails() {
-        String email = getCurrentUsername();
-        return userService.getUser(email);
+    public UserResponse getUserDetails(Authentication authentication) {
+        return userService.getUser(authentication.getName());
     }
 
     @PostMapping("/login")
@@ -36,18 +34,9 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public UserResponse update(@RequestPart("request") @Valid UserUpdateRequest request,
+    public UserResponse update(Authentication authentication,
+                               @RequestPart("request") @Valid UserUpdateRequest request,
                                @RequestPart("image") MultipartFile image) {
-        String email = getCurrentUsername();
-        return userService.update(request, image, email);
-    }
-
-    private String getCurrentUsername() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof UserDetails) {
-            return ((UserDetails) principal).getUsername();
-        } else {
-            return principal.toString();
-        }
+        return userService.update(request, image, authentication.getName());
     }
 }
