@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 public class CategoryRequest {
     private String name;
-    private boolean parentCategory;
+    private Boolean parentCategory;
     private Integer parentId;
     private List<Translation> translations;
 }
