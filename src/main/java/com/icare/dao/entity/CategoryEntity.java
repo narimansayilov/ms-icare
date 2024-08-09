@@ -23,7 +23,7 @@ public class CategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
     String name;
-    boolean parentCategory;
+    Boolean parentCategory;
     Integer productCount;
 
     @ManyToOne
