@@ -11,7 +11,7 @@ import java.util.List;
 public class CategoryResponse {
     private Long id;
     private String name;
-    private boolean parentCategory;
+    private Boolean parentCategory;
     private Integer parentId;
     private Integer productCount;
     private List<Translation> translations;
