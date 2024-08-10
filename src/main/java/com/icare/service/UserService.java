@@ -19,7 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,17 +70,18 @@ public class UserService {
         return new JwtResponse(principal.getUsername(), accessToken);
     }
 
-    public UserResponse getUser(String email) {
-        UserEntity entity = userRepository.findByEmail(email).orElseThrow(() -> {
-            log.error("ActionLog.getUser.NotFoundException for email is {}", email);
+    public UserResponse getUser(Long id) {
+        UserEntity entity = userRepository.findById(id).orElseThrow(() -> {
+            log.error("ActionLog.getUser.NotFoundException for id = {}", id);
             return new NotFoundException("USER_NOT_FOUND");
         });
         return UserMapper.INSTANCE.entityToResponse(entity);
     }
 
     @Transactional
-    public UserResponse update(UserUpdateRequest request, MultipartFile image, String email) {
-        log.info("ActionLog.update.start for email is {}", email);
+    public UserResponse update(UserUpdateRequest request, MultipartFile image) {
+        log.info("ActionLog.update.start for email is {}", request.getEmail());
+        String email = getCurrentUsername();
         UserEntity entity = userRepository.findByEmail(email).orElseThrow(() -> {
             log.error("ActionLog.login.NotFoundException for email is {}", email);
             return new NotFoundException("USER_NOT_FOUND");
@@ -94,6 +97,15 @@ public class UserService {
         userRepository.save(entity);
         log.info("ActionLog.update.end for email is {}", email);
         return UserMapper.INSTANCE.entityToResponse(entity);
+    }
+
+    public String getCurrentUsername(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            return ((UserDetails) principal).getUsername();
+        } else {
+            return principal.toString();
+        }
     }
 
     private RoleEntity getRole() {
