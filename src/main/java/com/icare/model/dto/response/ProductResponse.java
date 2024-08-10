@@ -14,7 +14,7 @@ public class ProductResponse {
     private String description;
     private Double pricePerDay;
     private String address;
-    private boolean deliveryAvailable;
+    private Boolean deliveryAvailable;
     private Double deliveryPricePerKm;
     private UserResponse user;
     private Integer categoryId;
