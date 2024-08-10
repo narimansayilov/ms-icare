@@ -8,7 +8,7 @@ import com.icare.model.dto.response.UserResponse;
 import com.icare.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,13 +19,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public void register(@RequestBody @Valid UserRegisterRequest request) {
         userService.register(request);
-    }
-
-    @GetMapping("/details")
-    public UserResponse getUserDetails(Authentication authentication) {
-        return userService.getUser(authentication.getName());
     }
 
     @PostMapping("/login")
@@ -33,10 +29,14 @@ public class UserController {
         return userService.login(request);
     }
 
+    @GetMapping("/{id}")
+    public UserResponse getUser(@PathVariable Long id) {
+        return userService.getUser(id);
+    }
+
     @PutMapping("/update")
-    public UserResponse update(Authentication authentication,
-                               @RequestPart("request") @Valid UserUpdateRequest request,
+    public UserResponse update(@RequestPart("request") @Valid UserUpdateRequest request,
                                @RequestPart("image") MultipartFile image) {
-        return userService.update(request, image, authentication.getName());
+        return userService.update(request, image);
     }
 }
