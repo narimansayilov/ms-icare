@@ -10,5 +10,5 @@ import lombok.Setter;
 public class ProductImageRequest {
     private Long productId;
     private String imageUrl;
-    private boolean main;
+    private Boolean main;
 }
