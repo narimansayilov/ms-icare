@@ -19,7 +19,7 @@ public class ProductImageService {
     private final AmazonS3Service amazonS3Service;
     private final ProductImageRepository productImageRepository;
 
-    public void addImages(MultipartFile[] images, Long productId) {
+    public void addImages(List<MultipartFile> images, Long productId) {
         log.info("ActionLog.addImages.start for product id = {}", productId);
         boolean main = true;
         for (MultipartFile image : images) {
@@ -34,7 +34,7 @@ public class ProductImageService {
         log.info("ActionLog.addImages.end for product id = {}", productId);
     }
 
-    public void editImages(MultipartFile[] images, Long productId) {
+    public void editImages(List<MultipartFile> images, Long productId) {
         log.info("ActionLog.editImages.start for product id = {}", productId);
         List<ProductImageEntity> productImages = productImageRepository.findByProductIdAndStatus(productId, true);
         productImages.forEach(entity -> entity.setStatus(false));
