@@ -1,5 +1,7 @@
 package com.icare.model.dto.request;
 
+import com.icare.util.annotation.ValidEmail;
+import com.icare.util.annotation.ValidPhoneNumber;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,11 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserUpdateRequest {
-    @Email(message = "Email should be valid")
-    @NotBlank(message = "Email cannot be blank")
+    @ValidEmail
     private String email;
 
-    @Pattern(regexp = "^\\+994\\d{9}$", message = "Phone number must be in the format +994XXXXXXXXX")
-    @NotBlank(message = "Phone number cannot be blank")
+    @ValidPhoneNumber
     private String phoneNumber;
 }
