@@ -1,4 +1,4 @@
-package com.icare.model.dto.response;
+package com.icare.model.dto.exception;
 
 import lombok.Builder;
 import lombok.Getter;
