@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ProductImageResponse {
     private Long id;
-    private boolean main;
+    private Boolean main;
     private String url;
 }
