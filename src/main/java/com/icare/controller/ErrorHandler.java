@@ -1,18 +1,21 @@
 package com.icare.controller;
 
-import com.icare.model.dto.response.ValidationExceptionResponse;
-import com.icare.model.dto.response.ExceptionResponse;
-import com.icare.model.dto.response.FieldErrorResponse;
+import com.icare.model.dto.exception.ExceptionResponse;
+import com.icare.model.dto.exception.FieldErrorResponse;
+import com.icare.model.dto.exception.ValidationExceptionResponse;
 import com.icare.model.exception.*;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.*;
 
@@ -62,6 +65,12 @@ public class ErrorHandler {
         return buildExceptionResponse(exception.getMessage(), UNAUTHORIZED.value(), "UNAUTHORIZED_ACCESS");
     }
 
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ExceptionResponse handleHandlerMethodValidationException(HandlerMethodValidationException exception) {
+        return buildExceptionResponse(exception.getMessage(), BAD_REQUEST.value(), "HANDLER_METHOD_VALIDATION_ERROR");
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     public ExceptionResponse handleException(Exception exception) {
@@ -79,10 +88,31 @@ public class ErrorHandler {
                     .build();
             fieldErrors.add(error);
         });
+
+        return buildValidationExceptionResponse(BAD_REQUEST.value(), fieldErrors);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ValidationExceptionResponse handleConstraintViolationException(ConstraintViolationException exception) {
+        List<FieldErrorResponse> fieldErrors = exception
+                .getConstraintViolations()
+                .stream()
+                .map(violation ->
+                        FieldErrorResponse.builder()
+                                .field(violation.getPropertyPath().toString())
+                                .message(violation.getMessage())
+                                .build())
+                .collect(Collectors.toList());
+
+        return buildValidationExceptionResponse(BAD_REQUEST.value(), fieldErrors);
+    }
+
+    private ValidationExceptionResponse buildValidationExceptionResponse(Integer status, List<FieldErrorResponse> fieldErrors) {
         return ValidationExceptionResponse.builder()
                 .timestamp(LocalDateTime.now().format(DATE_FORMATTER))
                 .code("VALIDATION_FAILED")
-                .status(BAD_REQUEST.value())
+                .status(status)
                 .fieldErrors(fieldErrors)
                 .build();
     }
