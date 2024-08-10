@@ -23,7 +23,7 @@ public class ProductEntity {
     String description;
     Double pricePerDay;
     String address;
-    boolean deliveryAvailable;
+    Boolean deliveryAvailable;
     Double deliveryPricePerKm;
     Double totalRating;
     Integer viewCount;
