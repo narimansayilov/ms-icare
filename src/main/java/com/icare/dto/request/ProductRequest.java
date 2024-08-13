@@ -1,4 +1,4 @@
-package com.icare.model.dto.request;
+package com.icare.dto.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;

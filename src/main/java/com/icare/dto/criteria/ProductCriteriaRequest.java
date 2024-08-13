@@ -1,4 +1,4 @@
-package com.icare.model.dto.criteria;
+package com.icare.dto.criteria;
 
 import lombok.Getter;
 import lombok.Setter;

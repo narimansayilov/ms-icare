@@ -1,6 +1,6 @@
-package com.icare.model.dto.request;
+package com.icare.dto.request;
 
-import com.icare.dao.entity.Translation;
+import com.icare.entity.Translation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +11,6 @@ import java.util.List;
 public class CategoryRequest {
     private String name;
     private Boolean parentCategory;
-    private Integer parentId;
+    private Long parentId;
     private List<Translation> translations;
 }
