@@ -1,9 +1,10 @@
 package com.icare.controller;
 
-import com.icare.model.dto.request.CityRequest;
-import com.icare.model.dto.response.CityResponse;
+import com.icare.dto.request.CityRequest;
+import com.icare.dto.response.CityResponse;
 import com.icare.service.CityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,8 @@ public class CityController {
     }
 
     @GetMapping
-    public List<CityResponse> getAllCities(){
-        return cityService.getAll();
+    public List<CityResponse> getAllCities(Pageable pageable){
+        return cityService.getAllCities(pageable);
     }
 
     @GetMapping("/{id}")

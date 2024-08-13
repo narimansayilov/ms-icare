@@ -1,10 +1,10 @@
 package com.icare.controller;
 
-import com.icare.model.dto.request.UserLoginRequest;
-import com.icare.model.dto.request.UserRegisterRequest;
-import com.icare.model.dto.request.UserUpdateRequest;
-import com.icare.model.dto.response.JwtResponse;
-import com.icare.model.dto.response.UserResponse;
+import com.icare.dto.request.UserLoginRequest;
+import com.icare.dto.request.UserRegisterRequest;
+import com.icare.dto.request.UserUpdateRequest;
+import com.icare.dto.response.JwtResponse;
+import com.icare.dto.response.UserResponse;
 import com.icare.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,11 @@ public class UserController {
     @PostMapping("/login")
     public JwtResponse login(@RequestBody @Valid UserLoginRequest request) {
         return userService.login(request);
+    }
+
+    @GetMapping("/my")
+    public UserResponse getMyProfile(){
+        return userService.getMyProfile();
     }
 
     @GetMapping("/{id}")

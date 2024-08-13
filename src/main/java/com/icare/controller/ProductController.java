@@ -1,8 +1,8 @@
 package com.icare.controller;
 
-import com.icare.model.dto.criteria.ProductCriteriaRequest;
-import com.icare.model.dto.request.ProductRequest;
-import com.icare.model.dto.response.ProductResponse;
+import com.icare.dto.criteria.ProductCriteriaRequest;
+import com.icare.dto.request.ProductRequest;
+import com.icare.dto.response.ProductResponse;
 import com.icare.service.ProductService;
 import com.icare.util.annotation.ValidImages;
 import jakarta.validation.Valid;
