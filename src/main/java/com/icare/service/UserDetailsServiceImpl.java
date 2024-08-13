@@ -2,9 +2,9 @@ package com.icare.service;
 
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
-import com.icare.dao.entity.UserEntity;
+import com.icare.entity.UserEntity;
 import org.springframework.stereotype.Service;
-import com.icare.dao.repository.UserRepository;
+import com.icare.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
