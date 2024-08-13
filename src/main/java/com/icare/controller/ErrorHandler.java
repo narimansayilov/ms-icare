@@ -1,9 +1,9 @@
 package com.icare.controller;
 
-import com.icare.model.dto.exception.ExceptionResponse;
-import com.icare.model.dto.exception.FieldErrorResponse;
-import com.icare.model.dto.exception.ValidationExceptionResponse;
-import com.icare.model.exception.*;
+import com.icare.dto.exception.ExceptionResponse;
+import com.icare.dto.exception.FieldErrorResponse;
+import com.icare.dto.exception.ValidationExceptionResponse;
+import com.icare.exception.*;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -57,6 +57,12 @@ public class ErrorHandler {
     @ResponseStatus(CONFLICT)
     public ExceptionResponse handleAlreadyExistsException(AlreadyExistsException exception) {
         return buildExceptionResponse(exception.getMessage(), CONFLICT.value(), "ALREADY_EXISTS");
+    }
+
+    @ExceptionHandler(DeletionException.class)
+    @ResponseStatus(CONFLICT)
+    public ExceptionResponse handleDeletionException(DeletionException exception){
+        return buildExceptionResponse(exception.getMessage(), CONFLICT.value(), "DELETION_ERROR");
     }
 
     @ExceptionHandler(UnauthorizedAccessException.class)

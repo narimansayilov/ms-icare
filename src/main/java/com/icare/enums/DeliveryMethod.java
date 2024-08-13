@@ -1,4 +1,4 @@
-package com.icare.model.enums;
+package com.icare.enums;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.icare.dao.entity;
+package com.icare.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
