@@ -1,17 +1,15 @@
-package com.icare.model.dto.exception;
+package com.icare.dto.exception;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @Builder
-public class ValidationExceptionResponse {
+public class ExceptionResponse {
     private String timestamp;
+    private String message;
     private String code;
     private Integer status;
-    private List<FieldErrorResponse> fieldErrors;
 }

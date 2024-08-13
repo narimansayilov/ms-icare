@@ -1,4 +1,4 @@
-package com.icare.model.dto.response;
+package com.icare.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

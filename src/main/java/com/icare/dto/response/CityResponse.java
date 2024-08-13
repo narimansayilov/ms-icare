@@ -1,6 +1,6 @@
-package com.icare.model.dto.response;
+package com.icare.dto.response;
 
-import com.icare.dao.entity.Translation;
+import com.icare.entity.Translation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +8,9 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CategoryResponse {
+public class CityResponse {
     private Long id;
     private String name;
-    private Boolean parentCategory;
-    private Integer parentId;
     private Integer productCount;
     private List<Translation> translations;
 }
