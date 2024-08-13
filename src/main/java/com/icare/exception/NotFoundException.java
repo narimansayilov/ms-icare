@@ -1,4 +1,4 @@
-package com.icare.model.exception;
+package com.icare.exception;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {
