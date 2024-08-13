@@ -1,6 +1,6 @@
-package com.icare.dao.repository;
+package com.icare.repository;
 
-import com.icare.dao.entity.ProductEntity;
+import com.icare.entity.ProductEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
