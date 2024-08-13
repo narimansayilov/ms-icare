@@ -1,4 +1,4 @@
-package com.icare.dao.entity;
+package com.icare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,15 +13,12 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comments")
+@Table(name = "favorites")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ReviewEntity {
+public class FavoriteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String comment;
-    Integer rating;
-    Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -36,9 +33,4 @@ public class ReviewEntity {
 
     @UpdateTimestamp
     LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void autoFill() {
-        this.status = true;
-    }
 }

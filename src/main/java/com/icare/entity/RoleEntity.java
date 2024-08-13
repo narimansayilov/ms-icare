@@ -1,4 +1,4 @@
-package com.icare.dao.entity;
+package com.icare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

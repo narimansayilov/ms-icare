@@ -1,7 +1,7 @@
-package com.icare.dao.entity;
+package com.icare.entity;
 
-import com.icare.model.enums.DeliveryMethod;
-import com.icare.model.enums.RentalStatus;
+import com.icare.enums.DeliveryMethod;
+import com.icare.enums.RentalStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

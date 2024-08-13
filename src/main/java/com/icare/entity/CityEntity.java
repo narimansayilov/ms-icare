@@ -1,4 +1,4 @@
-package com.icare.dao.entity;
+package com.icare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -37,7 +37,7 @@ public class CityEntity {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    public void autoFill(){
+    protected void autoFill(){
         this.productCount = 0;
     }
 }

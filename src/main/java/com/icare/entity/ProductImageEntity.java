@@ -1,4 +1,4 @@
-package com.icare.dao.entity;
+package com.icare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,34 +13,19 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "products")
+@Table(name = "product_images")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductEntity {
+public class ProductImageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String title;
-    String description;
-    Double pricePerDay;
-    String address;
-    Boolean deliveryAvailable;
-    Double deliveryPricePerKm;
-    Double totalRating;
-    Integer viewCount;
-    Integer rentalCount;
+    String imageUrl;
+    Boolean main;
     Boolean status;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    UserEntity user;
-
-    @ManyToOne
-    @JoinColumn(name = "city_id")
-    CityEntity city;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    CategoryEntity category;
+    @JoinColumn(name = "product_id")
+    ProductEntity product;
 
     @CreationTimestamp
     LocalDateTime createdAt;
@@ -51,8 +36,5 @@ public class ProductEntity {
     @PrePersist
     protected void autoFill() {
         this.status = true;
-        this.totalRating = 0.0;
-        this.viewCount = 0;
-        this.rentalCount = 0;
     }
 }

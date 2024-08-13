@@ -1,4 +1,4 @@
-package com.icare.dao.entity;
+package com.icare.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +25,7 @@ public class CategoryEntity {
     String name;
     Boolean parentCategory;
     Integer productCount;
+    Integer subCategoryCount;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
@@ -35,14 +36,15 @@ public class CategoryEntity {
     List<Translation> translations;
 
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    LocalDateTime updatedAt;
 
     @PrePersist
-    public void autoFill(){
+    protected void autoFill(){
         this.productCount = 0;
+        this.subCategoryCount = 0;
         this.parent = this.parent.getId() == null ? null : this.parent;
     }
 }
