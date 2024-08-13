@@ -1,12 +1,13 @@
 package com.icare.mapper;
 
-import com.icare.dao.entity.CityEntity;
-import com.icare.model.dto.request.CityRequest;
-import com.icare.model.dto.response.CityResponse;
+import com.icare.entity.CityEntity;
+import com.icare.dto.request.CityRequest;
+import com.icare.dto.response.CityResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.factory.Mappers;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface CityMapper {
 
     CityResponse entityToResponse(CityEntity cityEntity);
 
-    List<CityResponse> entitiesToResponses(List<CityEntity> entities);
+    List<CityResponse> entitiesToResponses(Page<CityEntity> entities);
 
     void mapRequestToEntity(@MappingTarget CityEntity cityEntity, CityRequest cityRequest);
 }

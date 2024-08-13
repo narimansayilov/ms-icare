@@ -1,9 +1,9 @@
 package com.icare.mapper;
 
-import com.icare.dao.entity.UserEntity;
-import com.icare.model.dto.request.UserRegisterRequest;
-import com.icare.model.dto.request.UserUpdateRequest;
-import com.icare.model.dto.response.UserResponse;
+import com.icare.entity.UserEntity;
+import com.icare.dto.request.UserRegisterRequest;
+import com.icare.dto.request.UserUpdateRequest;
+import com.icare.dto.response.UserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;

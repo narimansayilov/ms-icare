@@ -1,8 +1,8 @@
 package com.icare.mapper;
 
-import com.icare.dao.entity.ProductImageEntity;
-import com.icare.model.dto.request.ProductImageRequest;
-import com.icare.model.dto.response.ProductImageResponse;
+import com.icare.entity.ProductImageEntity;
+import com.icare.dto.request.ProductImageRequest;
+import com.icare.dto.response.ProductImageResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValuePropertyMappingStrategy;

@@ -1,9 +1,9 @@
 package com.icare.mapper;
 
-import com.icare.dao.entity.ProductEntity;
-import com.icare.model.dto.request.ProductRequest;
-import com.icare.model.dto.response.ProductImageResponse;
-import com.icare.model.dto.response.ProductResponse;
+import com.icare.entity.ProductEntity;
+import com.icare.dto.request.ProductRequest;
+import com.icare.dto.response.ProductImageResponse;
+import com.icare.dto.response.ProductResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
