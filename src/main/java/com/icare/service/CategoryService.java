@@ -1,13 +1,16 @@
 package com.icare.service;
 
-import com.icare.dao.entity.CategoryEntity;
-import com.icare.dao.repository.CategoryRepository;
+import com.icare.entity.CategoryEntity;
+import com.icare.repository.CategoryRepository;
 import com.icare.mapper.CategoryMapper;
-import com.icare.model.dto.request.CategoryRequest;
-import com.icare.model.dto.response.CategoryResponse;
-import com.icare.model.exception.NotFoundException;
+import com.icare.dto.request.CategoryRequest;
+import com.icare.dto.response.CategoryResponse;
+import com.icare.exception.DeletionException;
+import com.icare.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,39 +22,42 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public void save(CategoryRequest request) {
-        log.info("ActionLog.save.start for category name is {}", request.getName());
-        categoryRepository.save(CategoryMapper.INSTANCE.requestToEntity(request));
-        log.info("ActionLog.save.end for category name is {}", request.getName());
+        CategoryEntity entity = CategoryMapper.INSTANCE.requestToEntity(request);
+        if(!request.getParentCategory()){
+            CategoryEntity parent = categoryRepository.findById(request.getParentId()).orElseThrow(() ->
+                    new NotFoundException("CATEGORY_NOT_FOUND"));
+            parent.setSubCategoryCount(parent.getSubCategoryCount() + 1);
+            categoryRepository.save(parent);
+            entity.setParent(parent);
+        }
+        categoryRepository.save(entity);
     }
 
-    public List<CategoryResponse> getAll() {
-        return CategoryMapper.INSTANCE.entitiesToResponses(categoryRepository.findAll());
+    public List<CategoryResponse> getAllCategories(Pageable pageable) {
+        Page<CategoryEntity> entities = categoryRepository.findAll(pageable);
+        return CategoryMapper.INSTANCE.entitiesToResponses(entities);
     }
 
     public CategoryResponse getById(Long id) {
-        CategoryEntity entity = categoryRepository.findById(id).orElseThrow(() -> {
-                log.error("ActionLog.getById.NotFoundException for category id = {}", id);
-                return new NotFoundException("CATEGORY_NOT_FOUND");
-        });
+        CategoryEntity entity = categoryRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("CATEGORY_NOT_FOUND"));
         return CategoryMapper.INSTANCE.entityToResponse(entity);
     }
 
     public CategoryResponse editById(Long id, CategoryRequest request) {
-        log.info("ActionLog.editById.start for category id = {}", id);
-        CategoryEntity entity = categoryRepository.findById(id).orElseThrow(() -> {
-            log.error("ActionLog.editById.NotFoundException for category id = {}", id);
-            return new NotFoundException("CATEGORY_NOT_FOUND");
-        });
+        CategoryEntity entity = categoryRepository.findById(id).orElseThrow(() ->
+             new NotFoundException("CATEGORY_NOT_FOUND"));
         CategoryMapper.INSTANCE.mapRequestToEntity(entity, request);
         categoryRepository.save(entity);
-        log.info("ActionLog.editById.end for category id = {}", id);
         return CategoryMapper.INSTANCE.entityToResponse(entity);
     }
 
     public void deleteById(Long id) {
-        log.info("ActionLog.deleteById.start for category id = {}", id);
-        // check product count
-        categoryRepository.deleteById(id);
-        log.info("ActionLog.deleteById.end for category id = {}", id);
+        CategoryEntity entity = categoryRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("CATEGORY_NOT_FOUND"));
+        if(entity.getProductCount() > 0 || entity.getSubCategoryCount() > 0)
+            throw new DeletionException("CATEGORY_CANNOT_BE_DELETED");
+        else
+            categoryRepository.deleteById(id);
     }
 }

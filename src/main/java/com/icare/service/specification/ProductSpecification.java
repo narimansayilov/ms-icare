@@ -1,7 +1,7 @@
 package com.icare.service.specification;
 
-import com.icare.dao.entity.ProductEntity;
-import com.icare.model.dto.criteria.ProductCriteriaRequest;
+import com.icare.entity.ProductEntity;
+import com.icare.dto.criteria.ProductCriteriaRequest;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;

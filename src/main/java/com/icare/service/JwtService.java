@@ -32,7 +32,7 @@ public class JwtService {
 
     public String generateAccessToken(UserDetails user) {
         return Jwts.builder()
-                .issuer("FunRental")
+                .issuer("Icare")
                 .subject(user.getUsername())
                 .issuedAt(new Date())
                 .expiration(Date.from(Instant.now().plus(Duration.ofMinutes(5))))

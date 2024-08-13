@@ -1,9 +1,10 @@
 package com.icare.controller;
 
-import com.icare.model.dto.request.CategoryRequest;
-import com.icare.model.dto.response.CategoryResponse;
+import com.icare.dto.request.CategoryRequest;
+import com.icare.dto.response.CategoryResponse;
 import com.icare.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryResponse> getAllCategories() {
-        return categoryService.getAll();
+    public List<CategoryResponse> getAllCategories(Pageable pageable) {
+        return categoryService.getAllCategories(pageable);
     }
 
     @GetMapping("/{id}")
@@ -32,7 +33,8 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public CategoryResponse updateCategory(@PathVariable Long id, @RequestBody CategoryRequest request) {
+    public CategoryResponse updateCategory(@PathVariable Long id,
+                                           @RequestBody CategoryRequest request) {
         return categoryService.editById(id, request);
     }
 
