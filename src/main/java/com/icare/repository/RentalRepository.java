@@ -1,6 +1,6 @@
-package com.icare.dao.repository;
+package com.icare.repository;
 
-import com.icare.dao.entity.RentalEntity;
+import com.icare.entity.RentalEntity;
 import jdk.jfr.Registered;
 import org.springframework.data.jpa.repository.JpaRepository;
 
