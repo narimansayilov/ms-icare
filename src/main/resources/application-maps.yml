@@ -1,0 +1,4 @@
+google:
+  maps:
+    api:
+      key: ${google.maps.api.key}
