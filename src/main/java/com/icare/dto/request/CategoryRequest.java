@@ -1,6 +1,6 @@
 package com.icare.dto.request;
 
-import com.icare.entity.Translation;
+import com.icare.dto.jsonB.Translation;
 import lombok.Getter;
 import lombok.Setter;
 
