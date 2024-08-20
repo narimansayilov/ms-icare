@@ -1,5 +1,6 @@
 package com.icare.entity;
 
+import com.icare.dto.jsonB.Translation;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
