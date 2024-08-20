@@ -1,4 +1,4 @@
-package com.icare.entity;
+package com.icare.dto.jsonB;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
