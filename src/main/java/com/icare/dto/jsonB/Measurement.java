@@ -1,4 +1,4 @@
-package com.icare.entity;
+package com.icare.dto.jsonB;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Translation {
-    private String lang;
-    private String name;
+public class Measurement {
+    private String text;
+    private int value;
 }

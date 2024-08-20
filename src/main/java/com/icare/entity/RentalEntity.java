@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,9 +22,9 @@ public class RentalEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    Double totalPrice;
-    LocalDateTime rentalStartDate;
-    LocalDateTime rentalEndDate;
+    LocalDate rentalStartDate;
+    LocalDate rentalEndDate;
+    Double rentalConst;
     String deliveryAddress;
 
     @Enumerated(EnumType.STRING)
@@ -42,8 +43,8 @@ public class RentalEntity {
     ProductEntity product;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    UserEntity user;
+    @JoinColumn(name = "order_id")
+    OrderEntity order;
 
     @CreationTimestamp
     LocalDateTime createdAt;
