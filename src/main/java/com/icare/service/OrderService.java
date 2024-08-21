@@ -7,6 +7,7 @@ import com.icare.entity.UserEntity;
 import com.icare.enums.OrderStatus;
 import com.icare.exception.NotActiveException;
 import com.icare.exception.NotFoundException;
+import com.icare.exception.UnauthorizedAccessException;
 import com.icare.mapper.OrderMapper;
 import com.icare.repository.OrderRepository;
 import com.icare.repository.UserRepository;
@@ -26,12 +27,12 @@ public class OrderService {
 
     @Transactional
     public void addOrder(OrderRequest request){
-        UserEntity user = userRepository.findByEmail(userService.getCurrentUsername()).orElseThrow(() ->
+        UserEntity user = userRepository.findByEmail(userService.getCurrentEmail()).orElseThrow(() ->
                 new NotFoundException("USER_NOT_FOUND"));
         if(!user.getStatus()){
             throw new NotActiveException("USER_NOT_ACTIVE");
         }
-        OrderEntity entity = OrderMapper.INSTANCE.requestToEntity(user, OrderStatus.PAID);
+        OrderEntity entity = OrderMapper.INSTANCE.requestToEntity(user.getId());
         entity = orderRepository.save(entity);
         double amount = 0.0;
         for(RentalRequest rental: request.getRentalRequest()){
@@ -39,5 +40,19 @@ public class OrderService {
         }
         entity.setAmount(amount);
         orderRepository.save(entity);
+    }
+
+    @Transactional
+    public void cancelOrder(Long id){
+        OrderEntity order = orderRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("ORDER_NOT_FOUND"));
+        UserEntity user = userRepository.findByEmail(userService.getCurrentEmail()).orElseThrow(() ->
+                new NotFoundException("USER_NOT_FOUND"));
+        if(!order.getUser().getId().equals(user.getId())){
+            throw new UnauthorizedAccessException("UNAUTHORIZED_ACCESS");
+        }
+        rentalService.cancelRental(id);
+        order.setStatus(OrderStatus.CANCELLED);
+        orderRepository.save(order);
     }
 }
