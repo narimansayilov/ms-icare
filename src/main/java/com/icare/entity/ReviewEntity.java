@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comments")
+@Table(name = "reviews")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ReviewEntity {
     @Id
@@ -30,6 +30,11 @@ public class ReviewEntity {
     @ManyToOne
     @JoinColumn(name = "product_id")
     ProductEntity product;
+
+    @ManyToOne
+    @JoinColumn(name = "rental_id")
+    RentalEntity rental;
+
 
     @CreationTimestamp
     LocalDateTime createdAt;
