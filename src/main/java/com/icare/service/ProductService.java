@@ -36,7 +36,7 @@ public class ProductService {
     @Transactional
     public void addProduct(ProductRequest request, List<MultipartFile> images){
         ProductEntity entity = ProductMapper.INSTANCE.requestToEntity(request);
-        String email = userService.getCurrentUsername();
+        String email = userService.getCurrentEmail();
         UserEntity user = userRepository.findByEmail(email).orElseThrow(() ->
                 new NotFoundException("USER_NOT_FOUND"));
         entity.setUser(user);
@@ -58,7 +58,7 @@ public class ProductService {
     }
 
     public List<ProductResponse> getMyProducts(Pageable pageable, Boolean status){
-        String email = userService.getCurrentUsername();
+        String email = userService.getCurrentEmail();
         UserEntity user = userRepository.findByEmail(email).orElseThrow(() ->
                 new NotFoundException("USER_NOT_FOUND"));
         Specification<ProductEntity> specification = ProductSpecification.getProductByUserAndStatus(user.getId(), status);
@@ -67,11 +67,7 @@ public class ProductService {
 
     @Transactional
     public ProductResponse editById(Long id, ProductRequest request, List<MultipartFile> images){
-        ProductEntity entity = productRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("PRODUCT_NOT_FOUND"));
-        if(!entity.getUser().getEmail().equals(userService.getCurrentUsername())){
-            throw new UnauthorizedAccessException("UNAUTHORIZED_ACCESS");
-        }
+        ProductEntity entity = checkAuthorizeAndReturnProduct(id);
         if(!entity.getStatus()){
             throw new NotActiveException("PRODUCT_NOT_ACTIVE");
         }
@@ -83,11 +79,7 @@ public class ProductService {
     }
 
     public void activateProduct(Long id){
-        ProductEntity entity = productRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("PRODUCT_NOT_FOUND"));
-        if(!entity.getUser().getEmail().equals(userService.getCurrentUsername())){
-            throw new UnauthorizedAccessException("UNAUTHORIZED_ACCESS");
-        }
+        ProductEntity entity = checkAuthorizeAndReturnProduct(id);
         if(entity.getStatus()){
             throw new ActiveException("PRODUCT_ACTIVE");
         }
@@ -96,11 +88,7 @@ public class ProductService {
     }
 
     public void deactivateProduct(Long id){
-        ProductEntity entity = productRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("PRODUCT_NOT_FOUND"));
-        if(!entity.getUser().getEmail().equals(userService.getCurrentUsername())){
-            throw new UnauthorizedAccessException("UNAUTHORIZED_ACCESS");
-        }
+        ProductEntity entity = checkAuthorizeAndReturnProduct(id);
         if(!entity.getStatus()){
             throw new NotActiveException("PRODUCT_NOT_ACTIVE");
         }
@@ -143,6 +131,15 @@ public class ProductService {
             throw new LimitExceededException("AD_LIMIT_EXCEEDED");
         }
         return userEntity;
+    }
+
+    private ProductEntity checkAuthorizeAndReturnProduct(Long id){
+        ProductEntity entity = productRepository.findById(id).orElseThrow(() ->
+                new NotFoundException("PRODUCT_NOT_FOUND"));
+        if(!entity.getUser().getEmail().equals(userService.getCurrentEmail())){
+            throw new UnauthorizedAccessException("UNAUTHORIZED_ACCESS");
+        }
+        return entity;
     }
 
     private CategoryEntity getCategory(Long categoryId){
