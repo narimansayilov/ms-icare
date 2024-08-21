@@ -1,6 +1,5 @@
 package com.icare.entity;
 
-import com.icare.enums.DeliveryMethod;
 import com.icare.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+
+import static com.icare.enums.OrderStatus.PENDING;
 
 @Entity
 @Getter
@@ -35,4 +36,9 @@ public class OrderEntity {
 
     @UpdateTimestamp
     LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void autoFill(){
+        this.status = PENDING;
+    }
 }
