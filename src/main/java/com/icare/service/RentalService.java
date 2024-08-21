@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+import static com.icare.enums.RentalStatus.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +35,7 @@ public class RentalService {
         double rentalCost = product.getPricePerDay() * rentalDays;
         totalPrice += rentalCost;
 
-        RentalEntity entity = RentalMapper.INSTANCE.requestToEntity(request, orderId, RentalStatus.ORDER_PLACED);
+        RentalEntity entity = RentalMapper.INSTANCE.requestToEntity(request, orderId);
 
         double deliveryCost = calculateDeliveryCost(request.getDeliveryMethod(), request.getDeliveryAddress(), request.getProductId(), true);
         entity.setDeliveryCost(deliveryCost);
@@ -44,8 +47,18 @@ public class RentalService {
 
         entity.setRentalConst(rentalCost);
         rentalRepository.save(entity);
+
+        product.setRentalCount(product.getRentalCount() + 1);
+        productRepository.save(product);
         return totalPrice;
     }
+
+    public void cancelRental(Long orderId) {
+        List<RentalEntity> rentals = rentalRepository.findByOrderId(orderId);
+        rentals.forEach(rental -> rental.setStatus(RentalStatus.CANCELLED));
+        rentalRepository.saveAll(rentals);
+    }
+
 
     private double calculateDeliveryCost(DeliveryMethod method, String address, Long productId, boolean isDelivery) {
         if (method == DeliveryMethod.PICKUP) {
