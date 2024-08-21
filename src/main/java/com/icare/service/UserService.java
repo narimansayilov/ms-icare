@@ -70,7 +70,7 @@ public class UserService {
     }
 
     public UserResponse getMyProfile(){
-        String email = getCurrentUsername();
+        String email = getCurrentEmail();
         UserEntity entity = userRepository.findByEmail(email).orElseThrow(() ->
                 new NotFoundException("USER_NOT_FOUND"));
         return UserMapper.INSTANCE.entityToResponse(entity);
@@ -78,7 +78,7 @@ public class UserService {
 
     @Transactional
     public UserResponse update(UserUpdateRequest request, MultipartFile image) {
-        String email = getCurrentUsername();
+        String email = getCurrentEmail();
         UserEntity entity = userRepository.findByEmail(email).orElseThrow(() ->
                 new NotFoundException("USER_NOT_FOUND"));
         if(!request.getEmail().equals(entity.getEmail())) {
@@ -92,7 +92,7 @@ public class UserService {
         return UserMapper.INSTANCE.entityToResponse(entity);
     }
 
-    public String getCurrentUsername(){
+    public String getCurrentEmail(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
             return ((UserDetails) principal).getUsername();
