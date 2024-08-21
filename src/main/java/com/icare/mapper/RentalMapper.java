@@ -14,5 +14,5 @@ public interface RentalMapper {
 
     @Mapping(source = "orderId", target = "order.id")
     @Mapping(source = "request.productId", target = "product.id")
-    RentalEntity requestToEntity(RentalRequest request, Long orderId, RentalStatus status);
+    RentalEntity requestToEntity(RentalRequest request, Long orderId);
 }
