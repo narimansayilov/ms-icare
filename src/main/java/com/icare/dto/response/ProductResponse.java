@@ -22,6 +22,7 @@ public class ProductResponse {
     private Double totalRating;
     private Integer viewCount;
     private Integer rentalCount;
+    private Integer reviewCount;
     private LocalDateTime createdAt;
     private List<ProductImageResponse> images;
 }
