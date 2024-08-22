@@ -11,6 +11,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static com.icare.enums.RentalStatus.ORDER_PLACED;
+
 @Entity
 @Getter
 @Setter
@@ -26,6 +28,7 @@ public class RentalEntity {
     LocalDate rentalEndDate;
     Double rentalConst;
     String deliveryAddress;
+    Boolean reviewWritten;
 
     @Enumerated(EnumType.STRING)
     DeliveryMethod deliveryMethod;
@@ -51,4 +54,10 @@ public class RentalEntity {
 
     @UpdateTimestamp
     LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void autoFill(){
+        this.reviewWritten = false;
+        this.status = ORDER_PLACED;
+    }
 }

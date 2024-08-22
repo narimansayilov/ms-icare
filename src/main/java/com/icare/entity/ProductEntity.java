@@ -28,6 +28,8 @@ public class ProductEntity {
     Double totalRating;
     Integer viewCount;
     Integer rentalCount;
+    Integer reviewCount;
+    Integer favoriteCount;
     Boolean status;
 
     @ManyToOne
@@ -54,5 +56,7 @@ public class ProductEntity {
         this.totalRating = 0.0;
         this.viewCount = 0;
         this.rentalCount = 0;
+        this.reviewCount = 0;
+        this.favoriteCount = 0;
     }
 }
