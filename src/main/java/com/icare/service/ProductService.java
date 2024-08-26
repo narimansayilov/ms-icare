@@ -1,6 +1,7 @@
 package com.icare.service;
 
 import com.icare.dto.criteria.ProductCriteriaRequest;
+import com.icare.dto.jsonB.Period;
 import com.icare.dto.request.ProductRequest;
 import com.icare.dto.response.ProductImageResponse;
 import com.icare.dto.response.ProductResponse;
@@ -18,6 +19,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,7 @@ public class ProductService {
     private final CategoryRepository categoryRepository;
     private final ProductImageService productImageService;
     private final LevelRepository levelRepository;
+    private final RentalRepository rentalRepository;
 
     @Transactional
     public void addProduct(ProductRequest request, List<MultipartFile> images){
@@ -49,7 +52,10 @@ public class ProductService {
         ProductEntity entity = productRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("PRODUCT_NOT_FOUND"));
         List<ProductImageResponse> images = productImageService.getImages(id);
-        return ProductMapper.INSTANCE.entityToResponse(entity, images);
+        ProductResponse response = ProductMapper.INSTANCE.entityToResponse(entity, images, getPeriods(id));
+        entity.setViewCount(entity.getViewCount() + 1);
+        productRepository.save(entity);
+        return response;
     }
 
     public List<ProductResponse> getAllProducts(Pageable pageable, ProductCriteriaRequest request){
@@ -75,7 +81,7 @@ public class ProductService {
         productRepository.save(entity);
         productImageService.editImages(images, id);
         List<ProductImageResponse> imageResponses = productImageService.getImages(id);
-        return ProductMapper.INSTANCE.entityToResponse(entity, imageResponses);
+        return ProductMapper.INSTANCE.entityToResponse(entity, imageResponses, getPeriods(id));
     }
 
     public void activateProduct(Long id){
@@ -103,6 +109,16 @@ public class ProductService {
             responses.add(getProduct(entity.getId()));
         }
         return responses;
+    }
+
+    private List<Period> getPeriods(Long productId){
+        List<RentalEntity> rentals = rentalRepository.findActiveRentalsByProductIdAndStartDate(productId, LocalDate.now());
+        return rentals.stream()
+                .map(rental -> Period.builder()
+                        .startDate(rental.getRentalStartDate())
+                        .endDate(rental.getRentalEndDate())
+                        .build())
+                .toList();
     }
 
     private void setCount(Long userId, Long categoryId, Long cityId){
