@@ -1,5 +1,6 @@
 package com.icare.dto.response;
 
+import com.icare.dto.jsonB.Period;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,4 +26,5 @@ public class ProductResponse {
     private Integer reviewCount;
     private LocalDateTime createdAt;
     private List<ProductImageResponse> images;
+    private List<Period> rentalPeriods;
 }

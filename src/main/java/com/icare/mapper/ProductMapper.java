@@ -1,5 +1,6 @@
 package com.icare.mapper;
 
+import com.icare.dto.jsonB.Period;
 import com.icare.entity.ProductEntity;
 import com.icare.dto.request.ProductRequest;
 import com.icare.dto.response.ProductImageResponse;
@@ -22,7 +23,7 @@ public interface ProductMapper {
 
     @Mapping(source = "entity.category.id", target = "categoryId")
     @Mapping(source = "entity.city.id", target = "cityId")
-    ProductResponse entityToResponse(ProductEntity entity, List<ProductImageResponse> images);
+    ProductResponse entityToResponse(ProductEntity entity, List<ProductImageResponse> images, List<Period> rentalPeriods);
 
     List<ProductResponse> entitiesToResponses(List<ProductEntity> entities);
 
