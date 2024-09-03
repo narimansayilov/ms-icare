@@ -22,8 +22,8 @@ public class ReviewController {
         reviewService.addReview(request);
     }
 
-    @GetMapping("/{id}")
-    public List<ReviewResponse> getProductReviews(@PathVariable Long id, Pageable pageable){
+    @GetMapping("/{product}")
+    public List<ReviewResponse> getProductReviews(@PathVariable(name = "product") Long id, Pageable pageable){
         return reviewService.getProductReviews(id, pageable);
     }
 
