@@ -23,9 +23,6 @@ public class RoleEntity {
     Long id;
     String name;
 
-    @ManyToMany(mappedBy = "roles")
-    List<UserEntity> users;
-
     @CreationTimestamp
     LocalDateTime createdAt;
 
