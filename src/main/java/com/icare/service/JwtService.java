@@ -35,10 +35,20 @@ public class JwtService {
                 .issuer("Icare")
                 .subject(user.getUsername())
                 .issuedAt(new Date())
-                .expiration(Date.from(Instant.now().plus(Duration.ofMinutes(5))))
+                .expiration(Date.from(Instant.now().plus(Duration.ofMinutes(24*60))))
                 .signWith(generateKey(secretKey))
                 .header().empty().add(Map.of("type", "JWT")).and()
                 .claim("authority", user.getAuthorities())
+                .compact();
+    }
+
+    public String generatePasswordResetToken(String email) {
+        return Jwts.builder()
+                .issuer("Icare")
+                .subject(email)
+                .issuedAt(new Date())
+                .expiration(Date.from(Instant.now().plus(Duration.ofMinutes(10))))
+                .signWith(generateKey(secretKey))
                 .compact();
     }
 
@@ -75,6 +85,11 @@ public class JwtService {
 
     public Boolean isTokenExpired(String token) {
         return extractClaims(token, Claims::getExpiration).before(new Date());
+    }
+
+    public String extractEmail(String token) {
+        Claims claims = tokenParser(token);
+        return claims.getSubject();
     }
 
     private Key generateKey(String secretKey) {
