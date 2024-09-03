@@ -1,13 +1,11 @@
 package com.icare.service;
 
 import com.icare.dto.response.FavoriteResponse;
-import com.icare.dto.response.ProductResponse;
 import com.icare.entity.FavoriteEntity;
 import com.icare.entity.ProductEntity;
 import com.icare.entity.UserEntity;
 import com.icare.exception.NotFoundException;
 import com.icare.mapper.FavoriteMapper;
-import com.icare.mapper.ProductMapper;
 import com.icare.repository.FavoriteRepository;
 import com.icare.repository.ProductRepository;
 import com.icare.repository.UserRepository;
