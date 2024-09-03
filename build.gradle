@@ -66,6 +66,9 @@ dependencies {
     // AOP
     implementation 'org.springframework:spring-aop:6.1.11'
 
+    // Mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     // Feign-client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.3'
 
