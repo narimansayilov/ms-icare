@@ -3,6 +3,7 @@ package com.icare.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -19,14 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private static final String[] AUTH_WHITELIST = {
-            "/users/login",
-            "/users/register",
+            "/auth/**",
             "/users/{id}",
-            "/categories/**",
-            "/products/{id}",
-            "/products/all",
-            "/cities/**",
-            "/files/**",
+            "/delivery/**",
             "/webjars/**",
             "/v2/api3-docs",
             "/v3/api-docs/**",
@@ -39,6 +35,16 @@ public class SecurityConfig {
             "/configuration/security",
     };
 
+    private static final String[] AUTH_IGNORE_WHITELIST = {
+            "/categories/**",
+            "/cities/**",
+            "/roles/**",
+            "/levels/**",
+            "/users/all",
+            "/users/{id}/**",
+            "/users/set-role",
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -47,6 +53,13 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/cities/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/levels/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/roles/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/reviews/**").permitAll()
+                        .requestMatchers(AUTH_IGNORE_WHITELIST).hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
