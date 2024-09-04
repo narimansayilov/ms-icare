@@ -33,7 +33,12 @@ public class FavoriteService {
                 new NotFoundException("USER_NOT_FOUND"));
         ProductEntity product = productRepository.findById(productId).orElseThrow(() ->
                 new NotFoundException("PRODUCT_NOT_FOUND"));
-        favoriteRepository.save(FavoriteMapper.INSTANCE.requestToEntity(product.getId(), user.getId()));
+        if(!favoriteRepository.existsByUserIdAndProductId(user.getId(), productId))
+        {
+            product.setFavoriteCount(product.getFavoriteCount() + 1);
+            productRepository.save(product);
+            favoriteRepository.save(FavoriteMapper.INSTANCE.requestToEntity(product.getId(), user.getId()));
+        }
     }
 
     public List<FavoriteResponse> getFavorite(Pageable pageable) {
