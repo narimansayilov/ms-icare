@@ -10,4 +10,5 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface FavoriteRepository  extends JpaRepository<FavoriteEntity, Long>, PagingAndSortingRepository<FavoriteEntity, Long> {
     Page<FavoriteEntity> findByUserId(Long userId, Pageable pageable);
+    Boolean existsByUserIdAndProductId(Long userId, Long productId);
 }
