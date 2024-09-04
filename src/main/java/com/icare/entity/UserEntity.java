@@ -30,6 +30,9 @@ public class UserEntity {
     String phoneNumber;
     String photoUrl;
     Integer productCount;
+    String verificationCode;
+    LocalDateTime expiryDate;
+    Boolean isVerified;
     Boolean status;
 
     @ManyToOne
@@ -53,6 +56,7 @@ public class UserEntity {
     @PrePersist
     protected void autoFill() {
         this.status = true;
+        this.isVerified = false;
         this.productCount = 0;
     }
 }
