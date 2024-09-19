@@ -1,6 +1,5 @@
 package com.icare.dto.response;
 
-import com.icare.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
