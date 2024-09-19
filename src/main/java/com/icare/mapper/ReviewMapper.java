@@ -20,8 +20,9 @@ public interface ReviewMapper {
     @Mapping(source = "reviewRequest.rentalId", target = "rental.id")
     ReviewEntity requestToEntity(ReviewRequest reviewRequest, Long userId, Long productId);
 
-    @Mapping( source = "product.id", target = "productId")
+    @Mapping(source = "product.id", target = "productId")
     ReviewResponse entityToResponse(ReviewEntity entity);
 
+    @Mapping(source = "reviewRequest.rentalId", target = "reviewEntity.rental.id")
     void mapRequestToEntity(@MappingTarget ReviewEntity reviewEntity, ReviewRequest reviewRequest);
 }
