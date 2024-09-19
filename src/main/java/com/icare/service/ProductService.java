@@ -53,6 +53,11 @@ public class ProductService {
                 new NotFoundException("PRODUCT_NOT_FOUND"));
         List<ProductImageResponse> images = productImageService.getImages(id);
         ProductResponse response = ProductMapper.INSTANCE.entityToResponse(entity, images, getPeriods(id));
+        if(entity.getReviewCount() != 0){
+            response.setTotalRating((double) (entity.getTotalOfRatings() / entity.getReviewCount()));
+        } else {
+            response.setTotalRating(0.0);
+        }
         entity.setViewCount(entity.getViewCount() + 1);
         productRepository.save(entity);
         return response;

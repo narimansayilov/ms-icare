@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static com.icare.enums.RentalStatus.*;
-
 @Service
 @RequiredArgsConstructor
 public class RentalService {
@@ -28,6 +26,10 @@ public class RentalService {
 
     public double addRental(RentalRequest request, Long orderId) {
         double totalPrice = 0.0;
+        if(request.getRentalStartDate().isAfter(request.getRentalEndDate()) ||
+           request.getRentalStartDate().isEqual(request.getRentalEndDate())) {
+            throw new RuntimeException("INVALID_DATES");
+        }
         ProductEntity product = productRepository.findById(request.getProductId()).orElseThrow(() ->
                 new NotFoundException("PRODUCT_NOT_FOUND"));
 
@@ -45,7 +47,7 @@ public class RentalService {
         entity.setReturnedDeliveryCost(returnedDeliveryCost);
         totalPrice += returnedDeliveryCost;
 
-        entity.setRentalConst(rentalCost);
+        entity.setRentalCost(rentalCost);
         rentalRepository.save(entity);
 
         product.setRentalCount(product.getRentalCount() + 1);
