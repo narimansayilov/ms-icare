@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create categories table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_category
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: sub_category_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: parent_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    references: categories(id)
+                    foreignKeyName: fk_parent_categories
+              - column:
+                  name: translations
+                  type: jsonb
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

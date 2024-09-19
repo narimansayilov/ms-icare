@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: create bronze level
+      author: Nariman Sayilov
+      changes:
+        - insert:
+            tableName: levels
+            columns:
+              - column:
+                  name: name
+                  value: "Bronze"
+              - column:
+                  name: ad_limit
+                  valueNumeric: 0
+              - column:
+                  name: price
+                  valueNumeric: 0.0
+              - column:
+                  name: user_count
+                  valueNumeric: 1

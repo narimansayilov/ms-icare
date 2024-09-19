@@ -25,9 +25,9 @@ public class ProductEntity {
     String address;
     Boolean deliveryAvailable;
     Double deliveryPricePerKm;
-    Double totalRating;
     Integer viewCount;
     Integer rentalCount;
+    Integer totalOfRatings;
     Integer reviewCount;
     Integer favoriteCount;
     Boolean status;
@@ -53,7 +53,7 @@ public class ProductEntity {
     @PrePersist
     protected void autoFill() {
         this.status = true;
-        this.totalRating = 0.0;
+        this.totalOfRatings = 0;
         this.viewCount = 0;
         this.rentalCount = 0;
         this.reviewCount = 0;

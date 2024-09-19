@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: create product_images table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: product_images
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: image_url
+                  type: varchar(1023)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: main
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: products(id)
+                    foreignKeyName: fk_product_images_products
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

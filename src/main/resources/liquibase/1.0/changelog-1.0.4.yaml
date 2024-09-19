@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: create cities table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: cities
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: translations
+                  type: jsonb
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()
