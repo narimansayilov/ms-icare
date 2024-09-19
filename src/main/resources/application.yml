@@ -4,5 +4,7 @@ spring:
       - db
       - s3
       - maps
+      - mail
       - security
+      - changelog
       - file-upload

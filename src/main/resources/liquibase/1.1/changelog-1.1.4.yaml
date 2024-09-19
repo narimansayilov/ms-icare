@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create admin user
+      author: Nariman Sayilov
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: pin
+                  value: "0000000"
+              - column:
+                  name: name
+                  value: "Admin"
+              - column:
+                  name: surname
+                  value: "Admin"
+              - column:
+                  name: birth_day
+                  value: "2000-01-01"
+              - column:
+                  name: email
+                  value: "byteworksdevelopment@gmail.com"
+              - column:
+                  name: password
+                  value: ${database.admin.password}
+              - column:
+                  name: phone_number
+                  value: "+994708744782"
+              - column:
+                  name: photo_url
+                  value: null
+              - column:
+                  name: product_count
+                  valueNumeric: 0
+              - column:
+                  name: verification_code
+                  value: "0000"
+              - column:
+                  name: expiry_date
+                  value: "2024-12-31T23:59:59"
+              - column:
+                  name: is_verified
+                  valueBoolean: true
+              - column:
+                  name: status
+                  valueBoolean: true
+              - column:
+                  name: level_id
+                  valueNumeric: 1

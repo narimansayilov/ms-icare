@@ -1,0 +1,82 @@
+databaseChangeLog:
+  - changeSet:
+      id: create rentals table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: rentals
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: rental_start_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rental_end_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rental_cost
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: delivery_address
+                  type: varchar(1023)
+              - column:
+                  name: review_written
+                  type: boolean
+                  defaultValueBoolean: false
+              - column:
+                  name: delivery_method
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: delivery_cost
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: returned_delivery_method
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: returned_delivery_cost
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: product_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: products(id)
+                    foreignKeyName: fk_rentals_products
+              - column:
+                  name: order_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: orders(id)
+                    foreignKeyName: fk_rentals_orders
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

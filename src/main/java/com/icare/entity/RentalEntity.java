@@ -26,7 +26,7 @@ public class RentalEntity {
     Long id;
     LocalDate rentalStartDate;
     LocalDate rentalEndDate;
-    Double rentalConst;
+    Double rentalCost;
     String deliveryAddress;
     Boolean reviewWritten;
 

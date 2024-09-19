@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: create users table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: pin
+                  type: varchar(7)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: surname
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: birth_day
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone_number
+                  type: varchar(13)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: photo_url
+                  type: varchar(1023)
+              - column:
+                  name: product_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: verification_code
+                  type: varchar(4)
+              - column:
+                  name: expiry_date
+                  type: timestamp
+              - column:
+                  name: is_verified
+                  type: boolean
+              - column:
+                  name: status
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: level_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    references: levels(id)
+                    foreignKeyName: fk_users_levels
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

@@ -1,0 +1,90 @@
+databaseChangeLog:
+  - changeSet:
+      id: create products table
+      author: Nariman Sayilov
+      changes:
+        - createTable:
+            tableName: products
+            columns:
+              - column:
+                  name: id
+                  type: serial
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: price_per_day
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(1023)
+              - column:
+                  name: delivery_available
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: delivery_price_per_km
+                  type: decimal(10,2)
+              - column:
+                  name: view_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: rental_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: total_of_ratings
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: review_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: favorite_count
+                  type: int
+                  defaultValue: 0
+              - column:
+                  name: status
+                  type: boolean
+                  defaultValueBoolean: true
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: users(id)
+                    foreignKeyName: fk_products_users
+              - column:
+                  name: city_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: cities(id)
+                    foreignKeyName: fk_products_cities
+              - column:
+                  name: category_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    references: categories(id)
+                    foreignKeyName: fk_products_categories
+              - column:
+                  name: created_at
+                  type: timestamp
+                  defaultValueComputed: now()
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  defaultValueComputed: now()

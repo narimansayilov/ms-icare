@@ -63,7 +63,7 @@ public class ReviewService {
 
 //        double totalRating = (product.getTotalRating() * product.getReviewCount() + request.getRating()) / (product.getReviewCount() + 1);
 
-        product.setTotalRating(calculateRating(product.getId()));
+        product.setTotalOfRatings(product.getTotalOfRatings() + request.getRating());
         product.setReviewCount(product.getReviewCount() + 1);
         productRepository.save(product);
     }
@@ -91,7 +91,7 @@ public class ReviewService {
         ProductEntity product = productRepository.findById(entity.getProduct().getId()).orElseThrow(()
                 -> new NotFoundException("PRODUCT_NOT_FOUND"));
 
-        product.setTotalRating(calculateRating(product.getId()));
+        product.setTotalOfRatings(product.getTotalOfRatings() + request.getRating());
         productRepository.save(product);
 
         return ReviewMapper.INSTANCE.entityToResponse(entity);
@@ -113,16 +113,8 @@ public class ReviewService {
         ProductEntity product = productRepository.findById(entity.getProduct().getId()).orElseThrow(()
                 -> new NotFoundException("PRODUCT_NOT_FOUND"));
 
-        product.setTotalRating(calculateRating(product.getId()));
+        product.setTotalOfRatings(product.getTotalOfRatings() - entity.getRating());
         product.setReviewCount(product.getReviewCount() - 1);
         productRepository.save(product);
-    }
-
-    private Double calculateRating(Long productId){
-        return reviewRepository.findAllByProductIdAndStatus(productId, true)
-                .stream()
-                .mapToDouble(ReviewEntity::getRating)
-                .average()
-                .orElse(0.0);
     }
 }
