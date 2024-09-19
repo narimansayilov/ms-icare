@@ -32,7 +32,7 @@ import java.util.List;
 public class UserService {
     private final AmazonS3Service amazonS3Service;
     private final UserRepository userRepository;
-    public final RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     public UserResponse getUser(Long id) {
         UserEntity entity = userRepository.findById(id).orElseThrow(() ->
