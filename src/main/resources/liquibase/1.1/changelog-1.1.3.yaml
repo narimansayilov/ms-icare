@@ -8,4 +8,4 @@ databaseChangeLog:
             columns:
               - column:
                   name: name
-                  value: "Admin"
+                  value: "ADMIN"
