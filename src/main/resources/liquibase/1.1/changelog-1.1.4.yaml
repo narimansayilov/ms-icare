@@ -20,13 +20,13 @@ databaseChangeLog:
                   value: "2000-01-01"
               - column:
                   name: email
-                  value: "byteworksdevelopment@gmail.com"
+                  value: ${ADMIN_EMAIL}
               - column:
                   name: password
-                  value: ${database.admin.password}
+                  value: ${ADMIN_PASSWORD}
               - column:
                   name: phone_number
-                  value: "+994708744782"
+                  value: ${ADMIN_PHONE_NUMBER}
               - column:
                   name: photo_url
                   value: null
@@ -38,7 +38,7 @@ databaseChangeLog:
                   value: "0000"
               - column:
                   name: expiry_date
-                  value: "2024-12-31T23:59:59"
+                  value: "2025-12-31T23:59:59"
               - column:
                   name: is_verified
                   valueBoolean: true

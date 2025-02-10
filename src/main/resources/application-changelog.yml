@@ -2,4 +2,3 @@ spring:
   liquibase:
     enabled: true
     change-log: 'liquibase/changelog-master.yaml'
-    default-schema: ${database.schema}
