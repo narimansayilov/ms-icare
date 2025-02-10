@@ -1,10 +1,9 @@
 spring:
   mail:
-    protocol: smtp
-    host: ${spring.mail.host}
-    port: ${spring.mail.port}
-    username: ${spring.mail.username}
-    password: ${spring.mail.password}
+    host: ${MAIL_HOST}
+    port: ${MAIL_PORT}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
